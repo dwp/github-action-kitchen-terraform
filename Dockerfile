@@ -18,4 +18,6 @@ WORKDIR /usr/action
 COPY Gemfile /usr/action/
 RUN bundle install
 
-ENTRYPOINT ["kitchen"]
+COPY entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]

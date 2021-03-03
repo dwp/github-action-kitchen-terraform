@@ -28,6 +28,7 @@ jobs:
         uses: dwp/github-action-kitchen-terraform@v0.14.7
         with:
           kitchen-command: "test scenario-a"
+          aws-account-number: ${{ secrets.AWS_ACCOUNT }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.ACTIONS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.ACTIONS_SECRET_ACCESS_KEY }}
@@ -35,6 +36,7 @@ jobs:
         uses: dwp/github-action-kitchen-terraform@v0.14.7
         with:
           kitchen-command: "test scenario-b"
+          aws-account-number: ${{ secrets.AWS_ACCOUNT }}
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.ACTIONS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.ACTIONS_SECRET_ACCESS_KEY }}
