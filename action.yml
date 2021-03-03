@@ -8,8 +8,12 @@ inputs:
   kitchen-command:
     description: "The command to run for example: list, converge, verify, test, destroy, etc."
     required: true
+  aws-account-number:
+    description: "AWS account number, used to redact from kitchen/terraform output"
+    required: true
 runs:
   using: "docker"
   image: "Dockerfile"
   args:
     - ${{ inputs.kitchen-command }}
+    - ${{ inputs.aws-account-number }}
