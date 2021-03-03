@@ -1,0 +1,15 @@
+# action.yml
+name: "DWP Kitchen Terraform"
+description: "Run kitchen terraform commands: github.com/newcontext-oss/kitchen-terraform"
+branding:
+  icon: "git-pull-request"
+  color: "black"
+inputs:
+  kitchen-command:
+    description: "The command to run for example: list, converge, verify, test, destroy, etc."
+    required: true
+runs:
+  using: "docker"
+  image: "Dockerfile"
+  args:
+    - ${{ inputs.kitchen-command }}
