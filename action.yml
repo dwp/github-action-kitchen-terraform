@@ -13,7 +13,7 @@ inputs:
     required: true
 runs:
   using: "docker"
-  image: "docker://quay.io/repository/dwp/kitchen-terraform:0.14.7"
+  image: "docker://quay.io/dwp/kitchen-terraform:0.14.7"
   args:
     - ${{ inputs.kitchen-command }}
     - ${{ inputs.aws-account-number }}
