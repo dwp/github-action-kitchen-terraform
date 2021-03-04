@@ -45,3 +45,8 @@ jobs:
 ### Docker Repo
 
 The image repository can be found [here](https://quay.io/repository/dwp/kitchen-terraform).
+
+Use the Docker image to run an equivalent locally using the example command below:
+```shell
+docker run --rm -e AWS_PROFILE=default -v $(pwd):/usr/action -v ~/.aws:/root/.aws quay.io/dwp/kitchen-terraform:0.14.7 "test scenario-a"
+```
