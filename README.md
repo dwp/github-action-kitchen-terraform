@@ -46,7 +46,19 @@ jobs:
 
 The image repository can be found [here](https://quay.io/repository/dwp/kitchen-terraform).
 
-Use the Docker image to run an equivalent locally using the example command below:
+Use the Docker image to run an equivalent locally using the example commands below:
+
+Standard Kitchen command
 ```shell
 docker run --rm -e AWS_PROFILE=default -v $(pwd):/usr/action -v ~/.aws:/root/.aws quay.io/dwp/kitchen-terraform:0.14.7 "test scenario-a"
+```
+
+Kitchen command with redacted output - output is piped to `sed` and the second argument is used to find/replace, this can be a string or regex
+```shell
+docker run --rm -e AWS_PROFILE=default -v $(pwd):/usr/action -v ~/.aws:/root/.aws quay.io/dwp/kitchen-terraform:0.14.7 "test scenario-a" "0123456789"
+```
+
+Kitchen command with custom certificate trusts - mounts a local directory of certificates to trust
+```shell
+docker run --rm -e AWS_PROFILE=default -v /etc/ssl/certs/:/usr/local/share/ca-certificates/ -v $(pwd):/usr/action -v ~/.aws:/root/.aws quay.io/dwp/kitchen-terraform:0.14.7 "test scenario-a"
 ```
