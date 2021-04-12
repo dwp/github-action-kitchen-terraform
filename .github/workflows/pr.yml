@@ -33,6 +33,8 @@ jobs:
         id: parse-output
         run: echo "::set-output name=kics_result::$(jq -c '.severity_counters' results.json)"
       - name: Display KICS Results
+        run: cat results.json
+      - name: Post KICS Results
         uses: mshick/add-pr-comment@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
