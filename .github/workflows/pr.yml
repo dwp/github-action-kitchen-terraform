@@ -1,0 +1,42 @@
+name: PR
+
+on:
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build Docker image
+        run: docker build -t kitchen-terraform:latest .
+      - name: Check container
+        run: docker run --rm kitchen-terraform version | grep "Test Kitchen version"
+
+  kics-scan:
+    name: KICS Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: 'repo'
+      - name: KICS Github Action
+        uses: checkmarx/kics-action@docker-runner
+        with:
+          path: 'repo'
+          output_path: 'results.json'
+      - name: Parse output
+        id: parse-output
+        run: echo "::set-output name=kics_result::$(jq -c '.severity_counters' results.json)"
+      - name: Display KICS Results
+        uses: mshick/add-pr-comment@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          message: |
+            **KICS Results:**  ${{ steps.parse-output.outputs.kics_result }}
+          allow-repeats: true
