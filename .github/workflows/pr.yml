@@ -4,6 +4,10 @@ on:
   pull_request:
     paths-ignore:
       - '**/*.md'
+
+env:
+  KICS_user_is_root: 67fd0c4a-68cf-46d7-8c41-bc9fba7e40ae
+
 jobs:
   build:
     name: Build and Test
@@ -29,6 +33,7 @@ jobs:
         with:
           path: 'repo'
           output_path: 'results.json'
+          exclude_queries: ${{ env.KICS_user_is_root }}
       - name: Parse output
         id: parse-output
         run: echo "::set-output name=kics_result::$(jq -c '.severity_counters' results.json)"
