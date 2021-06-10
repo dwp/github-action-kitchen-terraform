@@ -18,8 +18,8 @@ RUN bundle install
 
 COPY entrypoint.sh /entrypoint.sh
 
-RUN addgroup -S action && adduser -S action -G action
-USER action
+# Need to run as root inorder to update CA certificates
+USER root
 
 HEALTHCHECK NONE
 
