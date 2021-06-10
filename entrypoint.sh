@@ -1,6 +1,6 @@
 #!/bin/sh -l
 
-update-ca-certificates
+update-ca-certificates || true
 
 # This ensures that kitchen errors are maintained when piped through sed
 set -o pipefail
