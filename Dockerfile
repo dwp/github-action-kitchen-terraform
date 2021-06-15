@@ -1,4 +1,4 @@
-FROM hashicorp/terraform:0.14.7
+FROM hashicorp/terraform:0.14.11
 
 ENV BUILD_PACKAGES bash ruby-dev build-base
 ENV RUBY_PACKAGES ruby ruby-bundler
