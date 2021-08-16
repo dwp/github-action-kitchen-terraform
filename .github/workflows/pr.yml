@@ -34,6 +34,7 @@ jobs:
           path: 'repo'
           output_path: 'results'
           exclude_queries: ${{ env.KICS_user_is_root }}
+          fail_on: high,medium
       - name: Parse output
         id: parse-output
         run: echo "::set-output name=kics_result::$(jq -c '.severity_counters' results.json)"
