@@ -29,7 +29,7 @@ jobs:
         with:
           path: 'repo'
       - name: KICS Github Action
-        uses: checkmarx/kics-action@v1.2
+        uses: checkmarx/kics-action@v1.4
         with:
           path: 'repo'
           output_path: 'results'
@@ -37,7 +37,7 @@ jobs:
           fail_on: high,medium
       - name: Parse output
         id: parse-output
-        run: echo "::set-output name=kics_result::$(jq -c '.severity_counters' results.json)"
+        run: echo "::set-output name=kics_result::$(jq -c '.severity_counters' results/results.json)"
       - name: Display KICS Results
         run: cat results/results.json
       - name: Post KICS Results
