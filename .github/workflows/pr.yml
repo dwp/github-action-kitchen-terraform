@@ -15,10 +15,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Set Ruby Version
+        uses: ruby/setup-ruby@v1
       - name: Build Docker image
         run: docker build -t kitchen-terraform:latest .
-      - name: Check container
-        run: docker run --rm kitchen-terraform version | grep "Test Kitchen version"
+      - name: Check container [kitchen converge]
+        run: docker run --rm -v $(pwd)/examples/check-container:/usr/action kitchen-terraform:latest "converge"
+      - name: Check container [kitchen verify]
+        run: docker run --rm -v $(pwd)/examples/check-container:/usr/action kitchen-terraform:latest "verify"
 
   kics-scan:
     name: KICS Scan

@@ -1,0 +1,5 @@
+**/.kitchen/*
+**/.terraform/*
+**/terraform.tfstate.d/*
+.terraform.lock.hcl
+test-file
