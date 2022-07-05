@@ -1,26 +1,15 @@
-FROM hashicorp/terraform:0.14.7
+ARG TERRAFORM_VERSION=0.14.7
+ARG RUBY_PACKAGES=3.0.0
 
-ENV BUILD_PACKAGES bash ruby-dev build-base
-ENV RUBY_PACKAGES ruby ruby-bundler
+FROM hashicorp/terraform:${TERRAFORM_VERSION} as terraform
 
-# Update and install all of the required packages.
-# At the end, remove the apk cache
-RUN apk --no-cache add $BUILD_PACKAGES && \
-    apk --no-cache add $RUBY_PACKAGES && \
-    gem install bigdecimal:3.0.2 && \
-    rm -rf /var/cache/apk/*
-
-RUN mkdir /usr/action
+FROM ruby:${RUBY_VERSION}
 WORKDIR /usr/action
 
-COPY Gemfile /usr/action/
-RUN bundle install
-
 COPY entrypoint.sh /entrypoint.sh
-
-# Need to run as root inorder to update CA certificates
-USER root
-
-HEALTHCHECK NONE
+COPY --from=terraform /bin/terraform /bin/terraform
+COPY Gemfile Gemfile.lock /usr/action/
+RUN bundle install \
+  && update-ca-certificates
 
 ENTRYPOINT ["/entrypoint.sh"]
