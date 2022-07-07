@@ -5,6 +5,7 @@ FROM hashicorp/terraform:${TERRAFORM_VERSION} as terraform
 
 FROM ruby:${RUBY_VERSION}
 WORKDIR /usr/action
+RUN useradd -ms /bin/bash kitchen
 USER kitchen
 COPY entrypoint.sh /entrypoint.sh
 COPY --from=terraform /bin/terraform /bin/terraform
