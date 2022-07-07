@@ -9,7 +9,5 @@ WORKDIR /usr/action
 COPY entrypoint.sh /entrypoint.sh
 COPY --from=terraform /bin/terraform /bin/terraform
 COPY Gemfile Gemfile.lock /usr/action/
-RUN bundle install \
-  && update-ca-certificates
-
+RUN bundle install
 ENTRYPOINT ["/entrypoint.sh"]

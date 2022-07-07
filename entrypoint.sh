@@ -2,6 +2,8 @@
 # Ensures that kitchen errors are maintained when piped through sed
 set -o pipefail
 
+update-ca-certificates || true
+
 if [ -n "$GITLAB_USER" ] && [ -n "$GITLAB_PAT" ]; then
   # Set GitLab user
   git config credential.https://gitlab.com.username "${GITLAB_USER}"
@@ -18,7 +20,7 @@ EOF
 fi
 
 if [ -z "$2" ]; then
-  kitchen "${1}"
+  bundle exec kitchen "${1}"
 else
-  kitchen "${1}" | sed "s/$2/REDACTED/g"
+  bundle exec kitchen "${1}" | sed "s/$2/REDACTED/g"
 fi
