@@ -5,9 +5,12 @@ FROM hashicorp/terraform:${TERRAFORM_VERSION} as terraform
 
 FROM ruby:${RUBY_VERSION}
 WORKDIR /usr/action
-
+USER kitchen
 COPY entrypoint.sh /entrypoint.sh
 COPY --from=terraform /bin/terraform /bin/terraform
 COPY Gemfile Gemfile.lock /usr/action/
 RUN bundle install
+
+# KICS
+HEALTHCHECK NONE
 ENTRYPOINT ["/entrypoint.sh"]
