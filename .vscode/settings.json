@@ -1,0 +1,6 @@
+{
+  "makefile.extensionOutputFolder": "./.vscode",
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///Users/dmw/repos/dwp/github-action-kitchen-terraform/.github/workflows/build.yaml"
+  }
+}
