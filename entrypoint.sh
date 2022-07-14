@@ -1,4 +1,4 @@
-#!/bin/sh -l
+#!/bin/bash -l
 
 update-ca-certificates || true
 
@@ -21,7 +21,7 @@ EOF
 fi
 
 if [ -z "$2" ]; then
-  kitchen $1
+  bundle exec kitchen $1
 else
-  kitchen $1 | sed "s/$2/REDACTED/g"
+  bundle exec kitchen $1 | sed "s/$2/REDACTED/g"
 fi
