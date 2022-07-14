@@ -7,11 +7,15 @@ FROM ruby:${RUBY_VERSION}
 WORKDIR /usr/action
 RUN useradd -ms /bin/bash kitchen \
   && chown kitchen:kitchen /usr/action
+RUN apt install ca-certificates
 USER kitchen
 COPY entrypoint.sh /entrypoint.sh
 COPY --from=terraform /bin/terraform /bin/terraform
 COPY --chown=kitchen:kitchen Gemfile Gemfile.lock /usr/action/
 RUN bundle install
+USER root
+RUN update-ca-certificates
+USER kitchen
 
 # KICS
 HEALTHCHECK NONE
