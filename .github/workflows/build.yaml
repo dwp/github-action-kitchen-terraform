@@ -29,4 +29,4 @@ jobs:
             RUBY_VERSION: 3.0.0
             TERRAFORM_VERSION: 1.2.4
           tags: |
-            ghcr.io/${{ github.repository }}:edge
+            ghcr.io/${{ github.repository }}:${TERRAFORM_VERSION}-edge
