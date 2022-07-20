@@ -4,18 +4,19 @@ ARG RUBY_VERSION=3.1.2
 FROM hashicorp/terraform:${TERRAFORM_VERSION} as terraform
 
 FROM ruby:${RUBY_VERSION}
-WORKDIR /usr/action
 RUN useradd -ms /bin/bash kitchen \
-  && chown kitchen:kitchen /usr/action
-RUN apt install ca-certificates
+  && chown kitchen:kitchen /usr/kitchen \
+  && apt install ca-certificates \
+  && update-ca-certificates
+
 USER kitchen
 COPY entrypoint.sh /entrypoint.sh
 COPY --from=terraform /bin/terraform /bin/terraform
-COPY --chown=kitchen:kitchen Gemfile Gemfile.lock /usr/action/
-RUN bundle install
-USER root
-RUN update-ca-certificates
-USER kitchen
+COPY --chown=kitchen:kitchen Gemfile Gemfile.lock /usr/kitchen/
+RUN bundle config --system \
+  && bundle install --binstubs
+
+WORKDIR /usr/action
 
 # KICS
 HEALTHCHECK NONE

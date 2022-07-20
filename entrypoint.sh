@@ -1,4 +1,4 @@
-#!/bin/bash -l
+#!/usr/bin/env bash
 
 update-ca-certificates || true
 
@@ -7,13 +7,13 @@ set -o pipefail
 
 if [ -n "$GITLAB_USER" ] && [ -n "$GITLAB_PAT" ]; then
   # Set GitLab user
-  git config credential.https://gitlab.com.username ${GITLAB_USER}
+  git config credential.https://gitlab.com.username "${GITLAB_USER}"
 
   # Configure small script to pass GitLab PAT from $GITLAB_PAT env var
   # This avoids PAT being on disk, shell history, and terminal output
   # See docs: https://git-scm.com/docs/gitcredentials#_requesting_credentials
-  GIT_ASKPASS=$(mktemp) && chmod a+rx $GIT_ASKPASS && export GIT_ASKPASS
-  cat > $GIT_ASKPASS <<'EOF'
+  GIT_ASKPASS=$(mktemp) && chmod a+rx "${GIT_ASKPASS}" && export GIT_ASKPASS
+  cat > "${GIT_ASKPASS}" <<'EOF'
 #!/bin/sh
 exec echo "$GITLAB_PAT"
 EOF
@@ -21,7 +21,7 @@ EOF
 fi
 
 if [ -z "$2" ]; then
-  bundle exec kitchen $1
+  kitchen "$1"
 else
-  bundle exec kitchen $1 | sed "s/$2/REDACTED/g"
+  kitchen "$1" | sed "s/$2/REDACTED/g"
 fi
