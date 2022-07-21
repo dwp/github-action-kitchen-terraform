@@ -4,10 +4,11 @@ ARG RUBY_VERSION=3.1.2
 FROM hashicorp/terraform:${TERRAFORM_VERSION} as terraform
 
 FROM ruby:${RUBY_VERSION}
-RUN useradd -ms /bin/bash kitchen \
-  && mkdir -p /usr/action /usr/kitchen \
-  && chown kitchen:kitchen /usr/kitchen /usr/action \
-  && chmod 750 /usr/action /usr/kitchen \
+RUN groupadd -g 1001 kitchen \
+  && useradd -ms /bin/bash kitchen -u 1001 -g 1001 \
+  && mkdir -p /usr/kitchen \
+  && chown kitchen:kitchen /usr/kitchen \
+  && chmod 750 /usr/kitchen \
   && apt install ca-certificates \
   && update-ca-certificates
 
