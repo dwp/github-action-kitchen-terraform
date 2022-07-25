@@ -55,6 +55,7 @@ jobs:
         with:
           context: .
           load: true
+          push: false
           build-args: |
             RUBY_VERSION=${{ matrix.ruby_version }}
             TERRAFORM_VERSION=${{ matrix.terraform_version }}
@@ -63,12 +64,12 @@ jobs:
       - name: Test
         run: docker run --rm -v "$(pwd)/examples/check-container":/usr/action ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }}-edge "converge"
 
-      - name: Build and Export to Docker
+      - name: Push to registries
         uses: docker/build-push-action@v2
         with:
           context: .
           platforms: linux/amd64
-          push: false
+          push: true
           build-args: |
             RUBY_VERSION=${{ matrix.ruby_version }}
             TERRAFORM_VERSION=${{ matrix.terraform_version }}
