@@ -5,9 +5,28 @@ name: Test container builds
   pull_request:
 
 jobs:
+  kics-scan:
+    name: KICS Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: "repo"
+      - name: KICS Github Action
+        uses: checkmarx/kics-action@v1.5
+        with:
+          path: "repo"
+          output_path: "results"
+          exclude_queries: ${{ env.KICS_user_is_root }}
+          fail_on: high,medium
+          enable_comments: true
+
   build:
     name: Build
     runs-on: ubuntu-latest
+    needs:
+      - kics-scan
     strategy:
       matrix:
         terraform_version:
