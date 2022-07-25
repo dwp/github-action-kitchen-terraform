@@ -9,8 +9,10 @@ RUN groupadd -g 1001 kitchen \
   && mkdir -p /usr/kitchen \
   && chown kitchen:kitchen /usr/kitchen \
   && chmod 750 /usr/kitchen \
-  && apt install ca-certificates \
-  && update-ca-certificates
+  && apt-get update \
+  && apt-get --no-install-recommends -y install ca-certificates \
+  && update-ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
 
 USER kitchen
 WORKDIR /usr/kitchen
