@@ -1,8 +1,11 @@
 ---
-name: Test container builds
+name: Build Containers
 
 "on":
   pull_request:
+
+env:
+  KICS_user_is_root: 67fd0c4a-68cf-46d7-8c41-bc9fba7e40ae
 
 jobs:
   kics-scan:
@@ -51,6 +54,9 @@ jobs:
         with:
           context: .
           load: true
+          build-args: |
+            RUBY_VERSION=${{ matrix.ruby_version }}
+            TERRAFORM_VERSION=${{ matrix.terraform_version }}
           tags: ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }}-edge
 
       - name: Test
@@ -65,5 +71,4 @@ jobs:
           build-args: |
             RUBY_VERSION=${{ matrix.ruby_version }}
             TERRAFORM_VERSION=${{ matrix.terraform_version }}
-          tags: |
-            ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }}-edge
+          tags: ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }}-edge
