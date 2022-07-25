@@ -39,4 +39,4 @@ jobs:
           output_path: "results"
           exclude_queries: ${{ env.KICS_user_is_root }}
           fail_on: high,medium
-          enable_comments: true
+          enable_comments: false
