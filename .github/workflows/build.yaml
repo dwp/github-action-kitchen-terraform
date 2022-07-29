@@ -1,0 +1,76 @@
+---
+name: Build Containers
+
+"on":
+  pull_request:
+
+env:
+  KICS_user_is_root: 67fd0c4a-68cf-46d7-8c41-bc9fba7e40ae
+  KICS_apt_version_pin: 965a08d7-ef86-4f14-8792-4a3b2098937e
+
+jobs:
+  kics-scan:
+    name: KICS Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: "repo"
+      - name: KICS Github Action
+        uses: checkmarx/kics-action@v1.5
+        with:
+          path: "repo"
+          output_path: "results"
+          exclude_queries: ${{ env.KICS_user_is_root }},${{ env.KICS_apt_version_pin }}
+          fail_on: high,medium
+          enable_comments: true
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs:
+      - kics-scan
+    strategy:
+      matrix:
+        terraform_version:
+          - 0.14.7
+          - 1.2.4
+          - 1.2.5
+        ruby_version:
+          - 3.1.2
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          load: true
+          push: false
+          build-args: |
+            RUBY_VERSION=${{ matrix.ruby_version }}
+            TERRAFORM_VERSION=${{ matrix.terraform_version }}
+          tags: ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }}-edge
+
+      - name: Test
+        run: docker run --rm -v "$(pwd)/examples/check-container":/usr/action ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }}-edge "converge"
+
+      - name: Push to registries
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          build-args: |
+            RUBY_VERSION=${{ matrix.ruby_version }}
+            TERRAFORM_VERSION=${{ matrix.terraform_version }}
+          tags: ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }}-edge

@@ -1,26 +1,28 @@
-FROM hashicorp/terraform:0.14.7
+ARG TERRAFORM_VERSION=0.14.7
+ARG RUBY_VERSION=3.1.2
 
-ENV BUILD_PACKAGES bash ruby-dev build-base
-ENV RUBY_PACKAGES ruby ruby-bundler
+FROM hashicorp/terraform:${TERRAFORM_VERSION} as terraform
 
-# Update and install all of the required packages.
-# At the end, remove the apk cache
-RUN apk --no-cache add $BUILD_PACKAGES && \
-    apk --no-cache add $RUBY_PACKAGES && \
-    gem install bigdecimal:3.0.2 && \
-    rm -rf /var/cache/apk/*
+FROM ruby:${RUBY_VERSION}
+RUN groupadd -g 1001 kitchen \
+  && useradd -ms /bin/bash kitchen -u 1001 -g 1001 \
+  && mkdir -p /usr/kitchen \
+  && chown kitchen:kitchen /usr/kitchen \
+  && chmod 750 /usr/kitchen \
+  && apt-get update \
+  && apt-get --no-install-recommends -y install ca-certificates \
+  && update-ca-certificates \
+  && rm -rf /var/lib/apt/lists/*
 
-RUN mkdir /usr/action
+USER kitchen
+WORKDIR /usr/kitchen
+COPY entrypoint.sh /entrypoint.sh
+COPY --from=terraform /bin/terraform /bin/terraform
+COPY --chown=kitchen:kitchen Gemfile Gemfile.lock /usr/kitchen/
+RUN bundle && bundle binstubs --all
+
 WORKDIR /usr/action
 
-COPY Gemfile /usr/action/
-RUN bundle install
-
-COPY entrypoint.sh /entrypoint.sh
-
-# Need to run as root inorder to update CA certificates
-USER root
-
+# KICS
 HEALTHCHECK NONE
-
 ENTRYPOINT ["/entrypoint.sh"]
