@@ -21,7 +21,7 @@ EOF
 fi
 
 if [ -z "$2" ]; then
-  kitchen "$1"
+  kitchen $1
 else
-  kitchen "$1" | sed "s/$2/REDACTED/g"
+  kitchen $1 | sed "s/$2/REDACTED/g"
 fi
