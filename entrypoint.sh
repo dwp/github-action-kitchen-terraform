@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-update-ca-certificates || true
+if [ -n "$CUSTOM_CA_DIR" ]; then
+  cp ${CUSTOM_CA_DIR}/* /etc/ssl/certs/
+  update-ca-certificates
+fi
 
 # This ensures that kitchen errors are maintained when piped through sed
 set -o pipefail
