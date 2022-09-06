@@ -7,7 +7,6 @@ on:
       - "**/*.md"
 
 env:
-  KICS_user_is_root: 67fd0c4a-68cf-46d7-8c41-bc9fba7e40ae
   KICS_apt_version_pin: 965a08d7-ef86-4f14-8792-4a3b2098937e
 
 jobs:
@@ -24,7 +23,7 @@ jobs:
         with:
           path: "repo"
           output_path: "results"
-          exclude_queries: ${{ env.KICS_user_is_root }},${{ env.KICS_apt_version_pin }}
+          exclude_queries: ${{ env.KICS_apt_version_pin }}
           fail_on: high,medium
           enable_comments: true
 
