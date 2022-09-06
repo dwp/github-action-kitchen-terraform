@@ -1,0 +1,54 @@
+on:
+  push:
+    branches:
+      - main
+name: publish-containers
+jobs:
+  publish-containers:
+    name: Build & Publish Containers
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        terraform_version:
+          - 0.14.7
+          - 1.2.4
+          - 1.2.5
+        ruby_version:
+          - 3.1.2
+    steps:
+      - name: Code checkout
+        uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and export to Docker
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          load: true
+          push: false
+          build-args: |
+            RUBY_VERSION=${{ matrix.ruby_version }}
+            TERRAFORM_VERSION=${{ matrix.terraform_version }}
+          tags: ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }}
+
+      - name: Test container [kitchen converge]
+        run: docker run --rm -v "$(pwd)/examples/check-container":/usr/action ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }} "converge"
+      - name: Test container [kitchen verify]
+        run: docker run --rm -v "$(pwd)/examples/check-container":/usr/action ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }} "verify"
+
+      - name: Push to registries
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          platforms: linux/amd64
+          push: true
+          build-args: |
+            RUBY_VERSION=${{ matrix.ruby_version }}
+            TERRAFORM_VERSION=${{ matrix.terraform_version }}
+          tags: ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }}
