@@ -1,8 +1,10 @@
 ---
 name: Build Containers
 
-"on":
+on:
   pull_request:
+    paths-ignore:
+      - "**/*.md"
 
 env:
   KICS_user_is_root: 67fd0c4a-68cf-46d7-8c41-bc9fba7e40ae
@@ -63,6 +65,8 @@ jobs:
 
       - name: Test
         run: docker run --rm -v "$(pwd)/examples/check-container":/usr/action ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }}-edge "converge"
+      - name: Test container [kitchen verify]
+        run: docker run --rm -v "$(pwd)/examples/check-container":/usr/action ghcr.io/${{ github.repository }}:${{ matrix.terraform_version }}-edge "verify"
 
       - name: Push to registries
         uses: docker/build-push-action@v3
