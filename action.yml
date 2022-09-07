@@ -11,9 +11,12 @@ inputs:
   aws-account-number:
     description: "AWS account number, used to redact from kitchen/terraform output"
     required: true
+  terraform-version:
+    description: "Terraform version to use. Supported versions (tags) listed here: https://github.com/dwp/github-action-kitchen-terraform/pkgs/container/github-action-kitchen-terraform"
+    required: true
 runs:
   using: "docker"
-  image: "docker://quay.io/dwp/kitchen-terraform:0.14.7"
+  image: docker://ghcr.io/${{ github.repository }}:${{ inputs.terraform-version }}
   args:
     - ${{ inputs.kitchen-command }}
     - ${{ inputs.aws-account-number }}
