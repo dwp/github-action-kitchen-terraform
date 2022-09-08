@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.0.0](https://github.com/dwp/github-action-kitchen-terraform/compare/v1.0.0...v2.0.0) (2022-09-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* set Terraform version using Action input (#29)
+
+### Features
+
+* add workflow to generate releases ([3bc4be2](https://github.com/dwp/github-action-kitchen-terraform/commit/3bc4be2debc07068b783379ca7eb15c7019642f2))
+* publish containers to GitHub container registry ([efb0199](https://github.com/dwp/github-action-kitchen-terraform/commit/efb0199ab445d1d6e443d9896b4e22c75c932858))
+* set Terraform version using Action input ([#29](https://github.com/dwp/github-action-kitchen-terraform/issues/29)) ([e916d29](https://github.com/dwp/github-action-kitchen-terraform/commit/e916d2973301924f29d8a805a42661c2cbe5dadd))
+
 ## 1.0.0 (2022-09-05)
 
 
