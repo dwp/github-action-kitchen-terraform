@@ -16,7 +16,7 @@ inputs:
     required: true
 runs:
   using: "docker"
-  image: docker://ghcr.io/${{ github.repository }}:${{ inputs.terraform-version }}
+  image: docker://ghcr.io/dwp/github-action-kitchen-terraform:${{ inputs.terraform-version }}
   args:
     - ${{ inputs.kitchen-command }}
     - ${{ inputs.aws-account-number }}
