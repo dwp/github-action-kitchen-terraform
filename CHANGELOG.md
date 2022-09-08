@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/dwp/github-action-kitchen-terraform/compare/v2.0.0...v2.0.1) (2022-09-08)
+
+
+### Bug Fixes
+
+* use hardcoded container registry URI ([18a7e7c](https://github.com/dwp/github-action-kitchen-terraform/commit/18a7e7ce3ae9d588142725c865a5c3cadafe6c37))
+
 ## [2.0.0](https://github.com/dwp/github-action-kitchen-terraform/compare/v1.0.0...v2.0.0) (2022-09-08)
 
 
