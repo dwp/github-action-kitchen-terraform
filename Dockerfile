@@ -1,9 +1,8 @@
-ARG TERRAFORM_VERSION=0.14.7
 ARG RUBY_VERSION=3.1.2
-
-FROM hashicorp/terraform:${TERRAFORM_VERSION} as terraform
-
 FROM ruby:${RUBY_VERSION}
+
+ARG TERRAFORM_VERSIONS=latest
+
 RUN groupadd -g 1001 kitchen \
   && useradd -ms /bin/bash kitchen -u 1001 -g 1001 \
   && mkdir -p /usr/kitchen \
@@ -14,15 +13,20 @@ RUN groupadd -g 1001 kitchen \
   && update-ca-certificates \
   && rm -rf /var/lib/apt/lists/*
 
+# Install tfenv
+RUN git clone --depth=1 https://github.com/tfutils/tfenv.git /opt/.tfenv \
+  && ln -s /opt/.tfenv/bin/* /bin \
+  && for version in ${TERRAFORM_VERSIONS}; do tfenv install ${version}; done \
+  && chown -R kitchen:kitchen /opt/.tfenv/
+
 USER kitchen
 WORKDIR /usr/kitchen
 COPY entrypoint.sh /entrypoint.sh
-COPY --from=terraform /bin/terraform /bin/terraform
 COPY --chown=kitchen:kitchen Gemfile Gemfile.lock /usr/kitchen/
 RUN bundle && bundle binstubs --all
 
 WORKDIR /usr/action
 
-# KICS
+# KICS expects a healthcheck defined
 HEALTHCHECK NONE
 ENTRYPOINT ["/entrypoint.sh"]

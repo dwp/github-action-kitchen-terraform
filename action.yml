@@ -16,7 +16,9 @@ inputs:
     required: true
 runs:
   using: "docker"
-  image: docker://ghcr.io/dwp/github-action-kitchen-terraform:${{ inputs.terraform-version }}
+  image: "docker://ghcr.io/dwp/github-action-kitchen-terraform:2.0.0"
+  env:
+    TFENV_TERRAFORM_VERSION: ${{ inputs.terraform-version}}
   args:
     - ${{ inputs.kitchen-command }}
     - ${{ inputs.aws-account-number }}
