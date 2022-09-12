@@ -2,7 +2,7 @@
 
 if [ -n "$CUSTOM_CA_DIR" ]; then
   cp ${CUSTOM_CA_DIR}/* /etc/ssl/certs/
-  update-ca-certificates
+  update-ca-certificates --fresh
 fi
 
 # This ensures that kitchen errors are maintained when piped through sed
