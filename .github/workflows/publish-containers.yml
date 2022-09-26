@@ -1,6 +1,9 @@
 on:
-  release:
-    types: [published]
+  push:
+    branches:
+      - main
+    paths:
+      - '.release-please-manifest.json'
 name: publish-containers
 jobs:
   publish-containers:
@@ -9,6 +12,17 @@ jobs:
     steps:
       - name: Code checkout
         uses: actions/checkout@v2
+
+      - name: Get release number
+        id: get-release
+        run: |
+          RELEASE=$(sed 's/"."/"key"/g' .release-please-manifest.json | jq -r .key)
+          echo ${RELEASE}
+          echo ::set-output name=release-number::${RELEASE}
+
+      - name: Show version
+        run: |
+          echo "Version: ${{ steps.get-release.outputs.release-number }}"
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -39,6 +53,6 @@ jobs:
             RUBY_VERSION=3.1.2
             TERRAFORM_VERSIONS=0.14.7 1.2.4 1.2.5
           tags: |
-            ghcr.io/${{ github.repository }}:${{ github.ref }}
-            quay.io/dwp/kitchen-terraform:${{ github.ref }}
-            dwpdigital/kitchen-terraform:${{ github.ref }}
+            ghcr.io/${{ github.repository }}:${{ steps.get-release.outputs.release-number }}
+            quay.io/dwp/kitchen-terraform:${{ steps.get-release.outputs.release-number }}
+            dwpdigital/kitchen-terraform:${{ steps.get-release.outputs.release-number }}

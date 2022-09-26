@@ -51,7 +51,7 @@ jobs:
           build-args: |
             RUBY_VERSION=3.1.2
             TERRAFORM_VERSIONS=0.14.7 1.2.4 1.2.5
-          tags: ghcr.io/${{ github.repository }}:rc-${{ github.base_ref }}
+          tags: ghcr.io/${{ github.repository }}:rc-${{ github.head_ref }}
 
   test:
     name: test
@@ -80,7 +80,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Test container [kitchen converge]
-        run: docker run --rm -e TFENV_TERRAFORM_VERSION=${TFENV_TERRAFORM_VERSION} -v "$(pwd)/examples/check-container":/usr/action ghcr.io/${{ github.repository }}:rc-${{ github.base_ref }} "converge"
+        run: docker run --rm -e TFENV_TERRAFORM_VERSION=${TFENV_TERRAFORM_VERSION} -v "$(pwd)/examples/check-container":/usr/action ghcr.io/${{ github.repository }}:rc-${{ github.head_ref }} "converge"
       - name: Test container [kitchen verify]
-        run: docker run --rm -e TFENV_TERRAFORM_VERSION=${TFENV_TERRAFORM_VERSION} -v "$(pwd)/examples/check-container":/usr/action ghcr.io/${{ github.repository }}:rc-${{ github.base_ref }} "verify"
+        run: docker run --rm -e TFENV_TERRAFORM_VERSION=${TFENV_TERRAFORM_VERSION} -v "$(pwd)/examples/check-container":/usr/action ghcr.io/${{ github.repository }}:rc-${{ github.head_ref }} "verify"
 
