@@ -36,7 +36,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v2
       - name: Kitchen Test A
-        uses: dwp/github-action-kitchen-terraform@v2.0.0
+        uses: dwp/github-action-kitchen-terraform@v2.0.1
         with:
           terraform-version: "1.2.5"
           kitchen-command: "test scenario-a"
@@ -47,7 +47,7 @@ jobs:
           GITLAB_USER: ${{ secrets.GITLAB_USER }}
           GITLAB_PAT: ${{ secrets.GITLAB_PAT }}
       - name: Kitchen Test B
-        uses: dwp/github-action-kitchen-terraform@v2.0.0
+        uses: dwp/github-action-kitchen-terraform@v2.0.1
         with:
           terraform-version: "1.2.5"
           kitchen-command: "test scenario-b"
@@ -72,24 +72,24 @@ Use the Docker image to run an equivalent locally using the example commands bel
 Standard Kitchen command
 
 ```shell
-docker run --rm -e AWS_PROFILE=default -v $(pwd):/usr/action -v ~/.aws:/kitchen/.aws quay.io/dwp/kitchen-terraform:2.0.0 "test scenario-a"
+docker run --rm -e AWS_PROFILE=default -v $(pwd):/usr/action -v ~/.aws:/kitchen/.aws quay.io/dwp/kitchen-terraform:2.0.1 "test scenario-a"
 ```
 
 Kitchen command with GitLab user and GitLab Personal Access Token.
 Used when Terraform contains references to external modules that require Git credentials.
 
 ```shell
-docker run --rm -e AWS_PROFILE=default -e GITLAB_USER=user.name -e GITLAB_PAT=token -v $(pwd):/usr/action -v ~/.aws:/kitchen/.aws quay.io/dwp/kitchen-terraform:2.0.0 "test scenario-a"
+docker run --rm -e AWS_PROFILE=default -e GITLAB_USER=user.name -e GITLAB_PAT=token -v $(pwd):/usr/action -v ~/.aws:/kitchen/.aws quay.io/dwp/kitchen-terraform:2.0.1 "test scenario-a"
 ```
 
 Kitchen command with redacted output - output is piped to `sed` and the second argument is used to find/replace, this can be a string or regex
 
 ```shell
-docker run --rm -e AWS_PROFILE=default -v $(pwd):/usr/action -v ~/.aws:/kitchen/.aws quay.io/dwp/kitchen-terraform:2.0.0 "test scenario-a" "0123456789"
+docker run --rm -e AWS_PROFILE=default -v $(pwd):/usr/action -v ~/.aws:/kitchen/.aws quay.io/dwp/kitchen-terraform:2.0.1 "test scenario-a" "0123456789"
 ```
 
 Kitchen command with custom certificate trusts - mounts a local directory of certificates to trust
 
 ```shell
-docker run --rm -u root -e AWS_PROFILE=default -e CUSTOM_CA_DIR=/usr/share/ca-certificates/custom -v /etc/ssl/certs/:/usr/share/ca-certificates/custom -v $(pwd):/usr/action -v ~/.aws:/root/.aws quay.io/dwp/kitchen-terraform:2.0.0 "test scenario-a"
+docker run --rm -u root -e AWS_PROFILE=default -e CUSTOM_CA_DIR=/usr/share/ca-certificates/custom -v /etc/ssl/certs/:/usr/share/ca-certificates/custom -v $(pwd):/usr/action -v ~/.aws:/root/.aws quay.io/dwp/kitchen-terraform:2.0.1 "test scenario-a"
 ```

@@ -16,7 +16,7 @@ inputs:
     required: true
 runs:
   using: "docker"
-  image: "docker://ghcr.io/dwp/github-action-kitchen-terraform:2.0.0"
+  image: "docker://ghcr.io/dwp/github-action-kitchen-terraform:2.0.1"
   env:
     TFENV_TERRAFORM_VERSION: ${{ inputs.terraform-version}}
   args:
