@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.0.1](https://github.com/dwp/github-action-kitchen-terraform/compare/v2.0.0...v2.0.1) (2022-09-27)
+
+
+### Bug Fixes
+
+* build containers on release ([dcecb75](https://github.com/dwp/github-action-kitchen-terraform/commit/dcecb7542a7fb1215b9982aadd03b4e026c93624))
+
 ## [2.0.0](https://github.com/dwp/github-action-kitchen-terraform/compare/v1.0.0...v2.0.0) (2022-09-13)
 
 
