@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/dwp/github-action-kitchen-terraform/compare/v2.0.1...v2.1.0) (2023-08-16)
+
+
+### Features
+
+* add `jq` to Docker image ([541712f](https://github.com/dwp/github-action-kitchen-terraform/commit/541712fe503880fd17fd8048418a12b61965c1ed))
+
 ## [2.0.1](https://github.com/dwp/github-action-kitchen-terraform/compare/v2.0.0...v2.0.1) (2022-09-27)
 
 
