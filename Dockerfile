@@ -9,7 +9,7 @@ RUN groupadd -g 1001 kitchen \
   && chown kitchen:kitchen /usr/kitchen \
   && chmod 750 /usr/kitchen \
   && apt-get update \
-  && apt-get --no-install-recommends -y install ca-certificates \
+  && apt-get --no-install-recommends -y install ca-certificates jq \
   && update-ca-certificates \
   && rm -rf /var/lib/apt/lists/*
 
