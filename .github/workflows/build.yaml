@@ -50,7 +50,7 @@ jobs:
           push: true
           build-args: |
             RUBY_VERSION=3.1.2
-            TERRAFORM_VERSIONS=0.14.7 1.2.4 1.2.5
+            TERRAFORM_VERSIONS=0.14.7 1.5.6
           tags: ghcr.io/${{ github.repository }}:rc-${{ github.head_ref }}
 
   test:
@@ -62,8 +62,7 @@ jobs:
       matrix:
         terraform_version:
           - 0.14.7
-          - 1.2.4
-          - 1.2.5
+          - 1.5.6
         ruby_version:
           - 3.1.2
     env:
