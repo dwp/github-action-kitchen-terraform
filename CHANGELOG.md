@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.2.0](https://github.com/dwp/github-action-kitchen-terraform/compare/v2.1.0...v2.2.0) (2024-06-19)
+
+
+### Features
+
+* **gemfile:** update kitchen terraform to use v7 ([#44](https://github.com/dwp/github-action-kitchen-terraform/issues/44)) ([42b75c6](https://github.com/dwp/github-action-kitchen-terraform/commit/42b75c6665ec2f154f9581d40e8d9b95630e5619))
+
+
+### Bug Fixes
+
+* update terraform version for container ([#40](https://github.com/dwp/github-action-kitchen-terraform/issues/40)) ([1d30681](https://github.com/dwp/github-action-kitchen-terraform/commit/1d3068146c2e9bb0e7b9a101af926e6b4f46e6f6))
+
 ## [2.1.0](https://github.com/dwp/github-action-kitchen-terraform/compare/v2.0.1...v2.1.0) (2023-08-16)
 
 
