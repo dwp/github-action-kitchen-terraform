@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.0](https://github.com/dwp/github-action-kitchen-terraform/compare/v2.2.0...v2.3.0) (2024-06-21)
+
+
+### Features
+
+* update release-please version to latest ([#46](https://github.com/dwp/github-action-kitchen-terraform/issues/46)) ([0c3c712](https://github.com/dwp/github-action-kitchen-terraform/commit/0c3c712d9f21df74e38af45dabb7d56b739d623b))
+
 ## [2.2.0](https://github.com/dwp/github-action-kitchen-terraform/compare/v2.1.0...v2.2.0) (2024-06-19)
 
 
